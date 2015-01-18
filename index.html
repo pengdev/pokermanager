@@ -5,7 +5,6 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="description" content="Pokermanager : Homework for C++ course project at Aalto University">
-
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
     <title>Pokermanager</title>
@@ -31,14 +30,350 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <p>Homework for C++ course project at Aalto University.</p>
+        
+<div style="text-align: center">
+<h3>AS-0.3301 - project document</h3>
+<h1>Subject - <i>Poker Manager</i></h1>
+</div>
 
-<h2>
-<a id="repository-structure" class="anchor" href="#repository-structure" aria-hidden="true"><span class="octicon octicon-link"></span></a>REPOSITORY STRUCTURE</h2>
+<h3>Authors:</h3>
 
-<p>plan/         Project plan
-doc/          Project documentation
-src/          Source code</p>
+<table>
+<tr>
+<td>280600</td>
+<td>Peng Liu</td>
+<td><a href="mailto:peng.liu@aalto.fi">peng.liu@aalto.fi</a></td>
+</tr>
+<tr>
+<td>281201</td>
+<td>Qiuyang Tang</td>
+<td><a href="mailto:qiuyang.tang@aalto.fi">qiuyang.tang@aalto.fi</a></td>
+</tr>
+<tr>
+<td>245027</td>
+<td>Nataliia Trifonova</td>
+<td><a href="mailto:trifonn1@cc.hut.fi">trifonn1@cc.hut.fi</a></td>
+</tr>
+</table>
+
+<h3>Last updated: </h3>
+
+<p>12.12.2010</p>
+
+<p><b>Platform supported: </b>Mac OS, Linux (i386/amd64)</p>
+
+<p><b>Libraries to be installed:</b></p>
+<ol style="list-style-type: decimal;">
+  <li>Sqlite3 installation: (school linux machines do not have libsqlite3-dev library, and we don't have sudo permisson there to install it, so we will demonstrate the program using our own laptop)
+  <p><span style="font-family: &quot;Courier New&quot;; ">sudo apt-get install sqlite3 libsqlite3-dev</span></p></li>
+  <li>Gnuplot installation:
+  <p><span style="font-family: &quot;Courier New&quot;; ">sudo apt-get install gnuplot</span></p></li>
+  <li>Qt installation:
+  <ul style="list-style-type: circle;">
+    <li>Verify that you are in your home directory: <span style="font-family: &quot;Courier New&quot;; ">cd ~</span></li>
+    <li>Download the Qt SDK binaries: <span style="font-family: &quot;Courier New&quot;; ">wget http://goblin.tkk.fi/Qt_SDK_Lin64_offline_v1_1_3_en.run</span></li>
+    <li>Change the file permissions to make the file executable: <span style="font-family: &quot;Courier New&quot;; ">chmod u+x Qt_SDK_Lin64_offline_v1_1_3_en.run</span></li>
+    <li>Execute the installer file and follow the instructions of the graphical installer: <span style="font-family: &quot;Courier New&quot;; ">./Qt_SDK_Lin64_offline_v1_1_3_en.run</span></li>
+  </ul>
+  </li>
+</ol>
+<ul style="list-style-type: square;">
+  <li>Generate makefile: <span style="font-family: &quot;Courier New&quot;; ">qmake gui.pro</span></li>
+  <li>Compile the program: <span style="font-family: &quot;Courier New&quot;; ">make</span></li>
+  <li>Execute the program: <span style="font-family: &quot;Courier New&quot;; ">./gui</span></li>
+</ul>
+
+<p>The main window consists of six tab pages: general, hands, sessions, money won, positions and graph. Click "load history file" button to load the history from text file to the database. The file name of the current history file is displayed on the window.</p>
+<img style="border-width: 0px;" src="screenshots/choosefile.png" width="650" height="250" />
+
+<p>Choose a player in the combo box of players, the statistics will be shown in the tab pages.</p>
+<img style="border-width: 0px;" src="screenshots/chooseplayer.png" width="500" height="200" />
+
+<p>On the "general" tab page, the hands history of the current player is displayed in the table of player details. The table of player statistics shows the general statistics.</p>
+<img style="border-width: 0px;" src="screenshots/main_player6.png" width="700" height="500" />
+
+<p>In the "hands" tab page, the times and winning percentage of different starting hands are shown in the statistics table. The table shows the history filtered by the chosen private cards. When double click a row in the table, the table of session details shows the whole history of the chosen session. </p>
+<img style="border-width: 0px;" src="screenshots/handsfilter.png" width="600" height="450" />
+
+<p>In the "sessions" tab page, by setting the beginning date and ending date, the sessions took place between these two dates are shown in the table.  When double click a row in the table, the table of session details shows the whole history of the chosen session. The statistics table shows the statistical results between the two dates.</p>
+<img style="border-width: 0px;" src="screenshots/sessionfilter.png" width="650" height="500" />
+
+<p>In the "money won" tab page, the value between 0 and 100 can be chosen by the slider. The table shows the sessions in which the player won money above the value. When double click a row in the table, the table of session details shows the whole history of the chosen session.</p>
+<img style="border-width: 0px;" src="screenshots/moneyfilter.png" width="650" height="500" />
+
+<p>The "positions" tab page shows the statistical results for small blind and big blind. The table can also be filered by different positions.</p>
+<img style="border-width: 0px;" src="screenshots/positionstats&amp;filter.png" width="650" height="500" />
+
+<p>The "graph" tab page shows money won over hands played for the player.</p>
+<img style="border-width: 0px;" src="screenshots/moneyplot.png" width="650" height="500" />
+
+<p><b>Terminology: </b></p>
+<ul style="list-style-type: none;">
+  <li>VPIP %: Voluntarily put money in the pot %</li>
+  <li>PFR %: Preflop raise %</li>
+  <li>PF3bet %:Preflop 3bet %</li>
+  <li>AF %: Agression factor (Raise% + Bet%) / Call %</li>
+  <li>Cont. bet flop: Continuation bet flop %</li>
+  <li>WTSD %: Went to showdown %</li>
+  <li>W$SD %:Won at showdown %</li>
+  <li>SB: Small blind</li>
+  <li>BB: Big blind</li>
+</ul>
+
+<h2>Program architechture</h2>
+
+<p>The program includes 5 source files: fileIO.cc, player.cc, sqltest.cc, mainwindow.cc and main.cc. The sqltest.cc includes the interface to the sqlite database. File fileIO.cc provides the function to read from a given text history file, parses every possible line in it, and saves the result in structure in a sqlite database. FIle player.cc includes a player class, which provides methods to calculate player related statistics. In mainwindow.cc and main.cc, we set up graphic user interface using QT. The following is the diagram of the system architecture.</p>
+
+<svg width="1600" height="850" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+ <defs>
+  <marker refY="50" refX="50" markerHeight="5" markerWidth="5" viewBox="0 0 100 100" se_type="rightarrow" orient="auto" markerUnits="strokeWidth" id="se_marker_end_svg_101">
+   <path stroke-width="10" stroke="#000000" fill="#000000" d="m100,50l-100,40l30,-40l-30,-40z"/>
+  </marker>
+  <marker refY="50" refX="50" markerHeight="5" markerWidth="5" viewBox="0 0 100 100" se_type="rightarrow" orient="auto" markerUnits="strokeWidth" id="se_marker_end_svg_102">
+   <path stroke-width="10" stroke="#000000" fill="#000000" d="m100,50l-100,40l30,-40l-30,-40z"/>
+  </marker>
+  <marker refY="50" refX="50" markerHeight="5" markerWidth="5" viewBox="0 0 100 100" se_type="rightarrow" orient="auto" markerUnits="strokeWidth" id="se_marker_end_svg_103">
+   <path stroke-width="10" stroke="#000000" fill="#000000" d="m100,50l-100,40l30,-40l-30,-40z"/>
+  </marker>
+  <marker refY="50" refX="50" markerHeight="5" markerWidth="5" viewBox="0 0 100 100" se_type="rightarrow" orient="auto" markerUnits="strokeWidth" id="se_marker_end_svg_104">
+   <path stroke-width="10" stroke="#000000" fill="#000000" d="m100,50l-100,40l30,-40l-30,-40z"/>
+  </marker>
+  <marker refY="50" refX="50" markerHeight="5" markerWidth="5" viewBox="0 0 100 100" se_type="rightarrow" orient="auto" markerUnits="strokeWidth" id="se_marker_end_svg_105">
+   <path stroke-width="10" stroke="#000000" fill="#000000" d="m100,50l-100,40l30,-40l-30,-40z"/>
+  </marker>
+  <marker refY="50" refX="50" markerHeight="5" markerWidth="5" viewBox="0 0 100 100" se_type="rightarrow" orient="auto" markerUnits="strokeWidth" id="se_marker_end_svg_107">
+   <path stroke-width="10" stroke="#000000" fill="#000000" d="m100,50l-100,40l30,-40l-30,-40z"/>
+  </marker>
+  <marker refY="50" refX="50" markerHeight="5" markerWidth="5" viewBox="0 0 100 100" se_type="rightarrow" orient="auto" markerUnits="strokeWidth" id="se_marker_end_svg_108">
+   <path stroke-width="10" stroke="#000000" fill="#000000" d="m100,50l-100,40l30,-40l-30,-40z"/>
+  </marker>
+  <marker refY="50" refX="50" markerHeight="5" markerWidth="5" viewBox="0 0 100 100" se_type="rightarrow" orient="auto" markerUnits="strokeWidth" id="se_marker_end_svg_110">
+   <path stroke-width="10" stroke="#000000" fill="#000000" d="m100,50l-100,40l30,-40l-30,-40z"/>
+  </marker>
+  <marker refY="50" refX="50" markerHeight="5" markerWidth="5" viewBox="0 0 100 100" se_type="rightarrow" orient="auto" markerUnits="strokeWidth" id="se_marker_end_svg_111">
+   <path stroke-width="10" stroke="#000000" fill="#000000" d="m100,50l-100,40l30,-40l-30,-40z"/>
+  </marker>
+  <marker refY="50" refX="50" markerHeight="5" markerWidth="5" viewBox="0 0 100 100" se_type="leftarrow" orient="auto" markerUnits="strokeWidth" id="se_marker_start_svg_105">
+   <path stroke-width="10" stroke="#000000" fill="#000000" d="m0,50l100,40l-30,-40l30,-40z"/>
+  </marker>
+ </defs>
+ <g>
+  <title>Layer 1</title>
+  <rect id="svg_1" height="375.00001" width="509.99998" y="255.99998" x="22" stroke="#000000" fill="#ffffff"/>
+  <rect id="svg_2" height="0" width="1" y="324" x="358" stroke="#000000" fill="#ffffff"/>
+  <rect id="svg_4" height="526.99997" width="537.99993" y="249.99998" x="991.00002" stroke="#000000" fill="#ffffff"/>
+  <rect id="svg_7" height="372.94696" width="401" y="254.99999" x="557.00002" stroke="#000000" fill="#ffffff"/>
+  <path d="m61,120c0,1 1,3 7,15l1,1l3,5" id="svg_9" stroke-width="0" stroke="#000000" fill="none"/>
+  <rect id="svg_10" height="130.00001" width="701.99995" y="60" x="417.00002" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_11" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" y="141" x="761" stroke-width="0" stroke="#000000" fill="#000000">mainwindow.cc</text>
+  <text font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" id="svg_12" y="94" x="508" stroke-width="0" stroke="#000000" fill="#000000">Graphic UI</text>
+  <text font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" id="svg_13" y="292" x="1119" stroke-width="0" stroke="#000000" fill="#000000">Statistic Module</text>
+  <text font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" id="svg_14" y="293" x="143" stroke-width="0" stroke="#000000" fill="#000000">Parse Module</text>
+  <text font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" id="svg_15" y="289" x="693" stroke-width="0" stroke="#000000" fill="#000000">Database Interface</text>
+  <rect id="svg_16" height="384.00001" width="487.00004" y="383.78335" x="1013.88404" stroke="#000000" fill="#ffffff"/>
+  <rect id="svg_18" height="0" width="1" y="464.78333" x="334.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_5" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" y="413" x="1249" stroke-width="0" stroke="#000000" fill="#000000">player.cc</text>
+  <rect id="svg_19" height="54" width="481.99999" y="309.78444" x="1015.88406" stroke="#000000" fill="#ffffff"/>
+  <text xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" id="svg_20" y="344.78333" x="1245.88336" stroke-width="0" stroke="#000000" fill="#000000">player.hh</text>
+  <rect id="svg_21" height="119" width="206.99999" y="425.88326" x="1021.88336" stroke="#000000" fill="#ffffff"/>
+  <rect id="svg_22" height="27" width="0" y="575.88336" x="262.88336" stroke="#000000" fill="#ffffff"/>
+  <text font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" id="svg_23" y="445.88336" x="1121.88336" stroke-width="0" stroke="#000000" fill="#000000">hands_played</text>
+  <rect id="svg_24" height="119" width="206.99999" y="451.88326" x="1025.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_25" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="470.88336" x="1125.88336" stroke-width="0" stroke="#000000" fill="#000000">money_won</text>
+  <text xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" id="svg_26" y="531.21667" x="1159.29999" stroke-width="0" stroke="#000000" fill="#000000"/>
+  <rect id="svg_27" height="119" width="206.99999" y="477.88326" x="1028.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_28" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="495.88336" x="1122.88336" stroke-width="0" stroke="#000000" fill="#000000">vpip</text>
+  <rect id="svg_29" height="119" width="206.99999" y="499.88326" x="1029.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_30" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="519.88336" x="1132.88336" stroke-width="0" stroke="#000000" fill="#000000">pref</text>
+  <rect id="svg_31" height="119" width="206.99999" y="524.88326" x="1033.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_32" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="544.88336" x="1139.88336" stroke-width="0" stroke="#000000" fill="#000000">total_actions</text>
+  <rect id="svg_33" height="119" width="206.99999" y="548.88326" x="1034.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_34" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="568.88336" x="1140.88336" stroke-width="0" stroke="#000000" fill="#000000">raise</text>
+  <rect id="svg_35" height="119" width="206.99999" y="571.88326" x="1038.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_36" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="591.88336" x="1144.88336" stroke-width="0" stroke="#000000" fill="#000000">bet</text>
+  <rect id="svg_37" height="119" width="206.99999" y="594.88326" x="1037.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_38" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="614.88336" x="1143.88336" stroke-width="0" stroke="#000000" fill="#000000">call</text>
+  <rect id="svg_39" height="119" width="206.99999" y="618.88326" x="1040.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_40" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="637.88336" x="1146.88336" stroke-width="0" stroke="#000000" fill="#000000">agression_factor</text>
+  <rect id="svg_41" height="119" width="206.99999" y="641.88326" x="1046.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_42" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="619.88336" x="1402.88336" stroke-width="0" stroke="#000000" fill="#000000">wtsd</text>
+  <rect id="svg_43" height="119" width="206.99999" y="427.88326" x="1256.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_44" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="446.88336" x="1362.88336" stroke-width="0" stroke="#000000" fill="#000000">wsd</text>
+  <rect id="svg_45" height="119" width="206.99999" y="448.88326" x="1260.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_46" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="467.88336" x="1366.88336" stroke-width="0" stroke="#000000" fill="#000000">threeBet</text>
+  <rect id="svg_47" height="119" width="206.99999" y="471.88326" x="1265.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_48" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="490.88336" x="1371.88336" stroke-width="0" stroke="#000000" fill="#000000">cbet</text>
+  <rect id="svg_49" height="119" width="206.99999" y="492.88326" x="1271.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_50" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="511.88336" x="1377.88336" stroke-width="0" stroke="#000000" fill="#000000">cards</text>
+  <rect id="svg_51" height="119" width="206.99999" y="515.88326" x="1276.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_52" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="534.88336" x="1382.88336" stroke-width="0" stroke="#000000" fill="#000000">blind</text>
+  <rect id="svg_53" height="119" width="206.99999" y="533.88326" x="1280.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_54" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="552.88336" x="1386.88336" stroke-width="0" stroke="#000000" fill="#000000">vpipB</text>
+  <rect id="svg_55" height="119" width="206.99999" y="553.88326" x="1284.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_56" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="572.88336" x="1390.88336" stroke-width="0" stroke="#000000" fill="#000000">pfrB</text>
+  <rect id="svg_57" height="119" width="206.99999" y="576.88326" x="1288.88336" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_58" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="594.88336" x="1395.88336" stroke-width="0" stroke="#000000" fill="#000000">wsdB</text>
+  <text id="svg_59" font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="666.88336" x="1146.88336" stroke-width="0" stroke="#000000" fill="#000000">wtsd</text>
+  <rect id="svg_60" height="250" width="416.99999" y="365.28142" x="67" stroke="#000000" fill="#ffffff"/>
+  <rect id="svg_61" height="0" width="1" y="362.28333" x="137" stroke="#000000" fill="#ffffff"/>
+  <text xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" id="svg_3" y="394" x="269" stroke-width="0" stroke="#000000" fill="#000000">filoIO.cc</text>
+  <rect id="svg_62" height="43" width="416.99999" y="304.28451" x="68" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_63" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" y="333" x="269" stroke-width="0" stroke="#000000" fill="#000000">filoIO.hh</text>
+  <rect id="svg_65" height="84" width="165" y="401.28333" x="84" stroke="#000000" fill="#ffffff"/>
+  <text xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" id="svg_64" y="431.28333" x="159" stroke-width="0" stroke="#000000" fill="#000000">game_date</text>
+  <rect id="svg_66" height="84" width="165" y="439.28333" x="89" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_67" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="469.28333" x="164" stroke-width="0" stroke="#000000" fill="#000000">game_id</text>
+  <rect id="svg_68" height="84" width="165" y="478.28333" x="94" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_69" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="508.28333" x="169" stroke-width="0" stroke="#000000" fill="#000000">table_id</text>
+  <rect id="svg_70" height="84" width="165" y="514.28333" x="98" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_71" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="542.28333" x="167" stroke-width="0" stroke="#000000" fill="#000000">action</text>
+  <rect id="svg_72" height="84" width="165" y="402.28333" x="265" stroke="#000000" fill="#ffffff"/>
+  <text fill="#000000" stroke="#000000" stroke-width="0" x="339" y="425" id="svg_6" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve">phase</text>
+  <rect height="84" width="165" y="432.28333" x="270" stroke="#000000" fill="#ffffff" id="svg_17"/>
+  <text fill="#000000" stroke="#000000" stroke-width="0" x="344" y="455" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve" id="svg_73">cards</text>
+  <rect height="84" width="165" y="461.28333" x="276" stroke="#000000" fill="#ffffff" id="svg_74"/>
+  <text fill="#000000" stroke="#000000" stroke-width="0" x="350" y="484" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve" id="svg_75">player</text>
+  <rect height="84" width="165" y="489.28333" x="281" stroke="#000000" fill="#ffffff" id="svg_76"/>
+  <text font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="513.88336" x="352.88336" stroke-width="0" stroke="#000000" fill="#000000" id="svg_78">money</text>
+  <rect height="84" width="165" y="517.28333" x="286" stroke="#000000" fill="#ffffff" id="svg_79"/>
+  <text font-weight="normal" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="541.88336" x="357.88336" stroke-width="0" stroke="#000000" fill="#000000" id="svg_80">position</text>
+  <rect id="svg_81" height="52" width="310.00001" y="300" x="598" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_8" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" y="333" x="753" stroke-width="0" stroke="#000000" fill="#000000">sqltest.hh</text>
+  <rect id="svg_82" height="225.00001" width="308.00003" y="366.00003" x="599" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_83" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" y="401" x="735" stroke-width="0" stroke="#000000" fill="#000000">sqltest.cc</text>
+  <rect id="svg_84" height="59" width="168" y="412" x="629" stroke="#000000" fill="#ffffff"/>
+  <text xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" id="svg_85" y="432" x="711" stroke-width="0" stroke="#000000" fill="#000000">open</text>
+  <rect id="svg_86" height="59" width="168" y="438" x="646" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_87" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="458" x="728" stroke-width="0" stroke="#000000" fill="#000000">query</text>
+  <rect id="svg_88" height="59" width="168" y="466" x="663" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_89" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="486" x="743" stroke-width="0" stroke="#000000" fill="#000000">count</text>
+  <rect id="svg_90" height="59" width="168" y="490" x="677" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_91" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="510" x="760" stroke-width="0" stroke="#000000" fill="#000000">colum</text>
+  <rect id="svg_92" height="59" width="168" y="515" x="695" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_93" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="536" x="774" stroke-width="0" stroke="#000000" fill="#000000">close</text>
+  <rect id="svg_94" height="131" width="263" y="62" x="1202" stroke="#000000" fill="#ffffff"/>
+  <text font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" id="svg_95" y="90" x="1273" stroke-width="0" stroke="#000000" fill="#000000">Gnuplot</text>
+  <rect id="svg_97" height="42" width="142" y="103" x="1240" stroke="#000000" fill="#ffffff"/>
+  <text xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" id="svg_96" y="133" x="1313" stroke-width="0" stroke="#000000" fill="#000000">dataset</text>
+  <rect id="svg_98" height="42" width="158.99999" y="137" x="1261.00001" stroke="#000000" fill="#ffffff"/>
+  <text transform="matrix(0.927926, 0, 0, 0.89749, 73.5546, 17.372)" id="svg_99" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="166.87331" x="1365.89124" stroke-width="0" stroke="#000000" fill="#000000">gnuplot_cmd</text>
+  <line marker-end="url(#se_marker_end_svg_101)" stroke-width="3" id="svg_101" y2="354" x2="750" y1="367" x1="750" stroke="#000000" fill="none"/>
+  <line id="svg_102" marker-end="url(#se_marker_end_svg_102)" stroke-width="3" y2="373" x2="1249" y1="386" x1="1249" stroke="#000000" fill="none"/>
+  <line id="svg_103" marker-end="url(#se_marker_end_svg_103)" stroke-width="3" y2="354" x2="273" y1="367" x1="273" stroke="#000000" fill="none"/>
+  <line id="svg_104" marker-end="url(#se_marker_end_svg_104)" stroke-width="3" y2="196.00001" x2="752" y1="254.00001" x1="752" stroke="#000000" fill="none"/>
+  <line marker-start="url(#se_marker_start_svg_105)" marker-end="url(#se_marker_end_svg_105)" id="svg_105" y2="321.56665" x2="491.64251" y1="321.56665" x1="592.66332" stroke-width="3" stroke="#000000" fill="none"/>
+  <line id="svg_106" y2="296.6167" x2="22.41663" y1="296.6167" x1="21.41663" stroke-width="3" stroke="#000000" fill="none"/>
+  <line marker-end="url(#se_marker_end_svg_107)" id="svg_107" y2="324.98328" x2="1010.35204" y1="324.98328" x1="908.33331" stroke-width="3" stroke="#000000" fill="none"/>
+  <line marker-end="url(#se_marker_end_svg_108)" id="svg_108" y2="193.94118" x2="1092.59998" y1="250.94995" x1="1092.59998" stroke-width="3" stroke="#000000" fill="none"/>
+  <line id="svg_110" marker-end="url(#se_marker_end_svg_110)" y2="199.94121" x2="1314.59998" y1="250.94987" x1="1314.59998" stroke-width="3" stroke="#000000" fill="none"/>
+  <line marker-end="url(#se_marker_end_svg_111)" id="svg_111" y2="126.94995" x2="1125.60008" y1="126.94995" x1="1201.60008" stroke-width="3" stroke="#000000" fill="none"/>
+ </g>
+</svg>
+
+<p>We decided to use this architecture because at the beginning we decided to use sqlite database, then we need a database interface to create and make queries to the databse. The parse module is compulsory to read the history and parse important information, in our design, after extracted information, we directly save it to our database. When looking into our project requirements, we need to make statistics to a given player, so we implemented a statistic module and created a player class, it has methods to get different statistics. To plot the money won, we need to use gnuplot in the system, so we firstly print the dataset to plot in a file, and then call the gnuplot using preconfigured settings, after we got the picture, we embedded it into our graphical UI. The graphical UI can filter through different queries to our database. We think and discuss as well as doing the coding, gradually we get a clear structure of the program like this.</p>
+
+<h2>Data structures and algorithms</h2>
+
+<p><b>Peng's data structures:</b></p>
+<ul style="list-style-type: none;">
+  <li>The database includes 9 columes. They are: game_date (DATETIME type), game_id (INTEGER type), table_id (TEXT type), action (TEXT type), phase (TEXT type), cards (TEXT type), player (TEXT type), money (REAL type), position (TEXT type). Since I parsed the history line by line, in some cases I can not get all the 9 information at the same time, I just used several records with some entries empty, they are identified by the game_id. We doubted if it is efficient to use text for most of columns and we tried to use integer to replace text in action, phase and position entries, but finally the real problem which caused the slow parsing was found, it was solved in the sql database open settings. In order to make the printed table more readable, we changed everything back to TEXT type at the end.</li>
+</ul>
+
+<p><b>Nataliia's data structures:</b></p>
+<ul style="list-style-type: none;">
+  <li>Following classes were used:
+  <ul style="list-style-type: disc;">
+    <li>Class Player includes methods for statistics calculation and some private variables such as player’s name. </li>
+    <li>Class Database contains methods to work with sqlite3 database: ordinary methods such as open(), close(), etc. and methods for extracting the whole row, counting rows according to a particular query, extracting a single column.</li>
+  </ul>
+</li>
+</ul>
+
+<p><b>Nataliia's algorithms:</p></b>
+<ul style="list-style-type: disc;">
+  <li>Hands played: all the games the player took part AND did > 1 actions during the game.</li>
+  <li>VPIP: all the hands where a player called or raised or all-in'ed during the preflop phase divided by hands played.</li>
+  <li>PFR: all the hands where a player raised or all-in'ed during the preflop phase. divided by hands played.</li>
+  <li>Aggresiosn fator: (all raise / total actions) + (all bets / total actions) / (all calls divided / total actions).</li>
+  <li>Went to showdown, % = Total Times Went to Showdown / Total Times Saw The Flop * 100, where Total Times Went to Showdown = Times was on river - times folded on river - "not show" cases on river.</li>
+  <li>Won at showdown, % = Total Times Won Money at Showdown / Total Times Went to Showdown  * 100, where Total Times Won Money at SD were extracted easily, because during our "parsing" phase we marked it as action “winsd”.</li>
+  <li>3bet = Oppurtunities for 3bet / Real 3bet times. In order to calculate oppurtunities for 3bet I chose all the games where a player took part, then all preflop raises among those games. And if the first raise wasn’t done be the player, when our player has an opportunity to bet later. For "Real 3bet" I made the query "SELECT * FROM a WHERE phase=\"preflop\" AND action=\"raise\" group by game_id, player, action, money order by game_id, money;" which showed me all the raises during preflop for each game. Then i just had to calculate how many times the player did 3 bet.</li>
+  <li>Continuation bet flop = Opportunities to continuation bet flop / Real continuation bet flop. In order to calculate "Opportunities to continuation bet flop" first I chose all the games where a player raised on preflop. Then among those games I counted how many times a player was on flop phase so had an opportinity to bet again. "Real continuation bet flop": among those sessions where a player raised on preflop exclude those sessions where player's last action was "call". Among those left I counted sessions where a player betted on flop.</li>
+  <li>For private cards statistics calculation firstly I found all visible player's hands and their frequency using the single query. Then for each card I extracted the session history and analyzed if the player won this session or not.</li>
+  <li>For calculation stats while being small/big blind I used previously written functions (vpip(), pfr(), wsd()) using game_id where a player was on SB/BB as a filter to them.</li>
+</ul>
+
+<p><b>Qiuyang's data structures:</p></b>
+Class mainwindow contains the methods to work with graphical user interface, including the slots connected to different siganls and private members to work with the database and player class.
+
+<h2>Known bugs</h2>
+
+<p><b>Nataliia's bugs:</b></p>
+In order to check the results of statistics calculation I used PockerTracker software with the same history files. I found some differences:
+<ul style="list-style-type: disc;">
+  <li>Our AF value doesnt equal to that in PockerTracker. However, the numbers which are used to calculate AF, i.e. raise%, call% and bet% are the same. It is still unknown for me how PocketTracker calculates the AF.</li>
+  <li>PockerTracker calculates total 3bet value. As for us we calculated just Preflop 3 bet value as was needed in the requrements. So we couldnt comare the values. However, I chacked manualy all the seesions where a particaular player did preflop 3 bet and that seems the same in PocketTracker.</li>
+  <li>Continuation bet flop appered difficult statistics for calculation, due to the fact, that none of us are good in poker game. Knowing that, in some case it can be slightly not precise.</li>
+</ul>
+
+<p><b>Peng's bugs:</b></p>
+The fileIO.cc can not parse the time zone correctly. In the implementation. we directly ignored the time zone.
+
+
+<h2>Tasks sharing and schedule</h2>
+<p><b>Liu Peng</b></p>
+Implement and test the fileIO part, read from history file and parse valuable information; Create a database and save the parsed information in efficient and easy-to-read format in the database.
+Implement plotting the player's money history using gnuplot and embed the figure to the graphical user interface.
+<p><b>Tang Qiuyang</b></p>
+Study and create user friendly graphical user interface of the program.
+Implement the filter in the graphical UI.
+<p><b>Nataliia Trifonova</b></p>
+Implement the sqlite database interface, which can be used to do create/open database, make queries and close database actions.
+Implement most of the statistics, implement the player class.
+
+<p><b>Communication:</b></p>
+Face to face discussion
+We have group meetings twice a week to show our progress and discuss different problems we met, and make plans for the next few days. 
+Social network discussion
+We frequently used facebook to chat in group, discussing about problems and give suggestions to each other.
+
+<p><b>Amount of work done in different phases:</b></p>
+<ul style="list-style-type: none;">
+  <li>Planning: 2 weeks</li>
+  <li>Implementation of different areas of project: 3 weeks</li>
+  <li>Testing and documentation: 1 week</li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+<p><b>Things to be improved:</b></p>
+Basicly we have changed our orginal plan a lot. It is because at the beginning we didn't have a clear picture what to do and how to design the big picture of the program. After really do the coding work, we modify and improve our schedule step by step.
+Schedule seems haven't changed much, we basically followed the milestones, but we met much more frequently than originally planned. But next time we shall make a clearer milestone for the team.
+
+<h2>Differences to the original plan</h2>
+
+<p>Among "Additional requirements" we did not implement calculation pot odds to improve hand review, because we added much more statistics and pot odds calculation seems not that easy.</p>
+<p>Among "More stats and features, e.g. tip a dealer, burn cards before draw, etc." requirements we implemented position statistics and added stats for a player when he/she was on big blind/small blind. "Tip a dealer and burn cards before draw" are the actions which made during the game. This part we just did not delete when we eventually understood the aim of the project (programming not the game, but statistical SW)</p>
+<p>Program architecture was changed and is described in the corresponding part in details. Briefly, we had class Player and class Database which contains methods to work with DB. And basically, we didnt have any Data manager as we read history directly to the DB and then by making queries and some code calculat the statistics.</p>
+<p>As for "Task sharing" part some changes were made as well. They will be described in the corresponding part.
+Of course, deadlines where shifted and we had a way more meetings.</p>
+<p>We think our plan was not bad, since it covered the main actions each should do, the main ideas of what our programm should calculate and present, gave us rough orientation to deadlines and approximate scope of the work. In any case sometimes it is difficult to stick to the plan.</p>
+
+<h2>References</h2>
+
+<p>SQLite documentation: <a href="http://www.sqlite.org/docs.html">http://www.sqlite.org/docs.html</a></p>
+<p>SQLite code example: <a href="http://www.dreamincode.net/forums/topic/122300-sqlite-in-c/">http://www.dreamincode.net/forums/topic/122300-sqlite-in-c/</a></p>
+<p>C++ documentaion: <a href="http://www.cplusplus.com/reference/">http://www.cplusplus.com/reference/</a></p>
+<p>Qt documentation: <a href="http://doc.qt.digia.com/">http://doc.qt.digia.com/</a></p>
+<p>A brief gnuplot tutorial by Henri Gavin: <a href="http://people.duke.edu/~hpgavin/gnuplot.html">http://people.duke.edu/~hpgavin/gnuplot.html</a></p> 
+
+
       </section>
     </div>
 
