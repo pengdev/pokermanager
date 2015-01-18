@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<head> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <title> 
+    AS-0.3301 - project plan
+  </title> 
+</head> 
+<body> 
+  <h1> 
+    Subject 2 - Poker Manager
+  </h1> 
+  <h3> 
+    Authors:
+  </h3> 
+  <ul> 
+    <li> 
+      280600 Peng Liu
+      <a href='mail:peng.liu@aalto.fi'> 
+        peng.liu@aalto.fi
+      </a> 
+    </li> 
+    <li> 
+      281201 Qiuyang Tang
+      <a href='mail:qiuyang.tang@aalto.fi'> 
+        qiuyang.tang@aalto.fi
+      </a> 
+    </li> 
+    <li> 
+      245027 Nataliia Trifonova
+      <a href='mail:trifonn1@cc.hut.fi'> 
+        trifonn1@cc.hut.fi
+      </a> 
+    </li> 
+  </ul> 
+  <h3> 
+    Last update:
+  </h3> 
+  <p> 
+    2012-11-06
+  </p> 
+  <h2> 
+    Specification of requirements
+  </h2> 
+  <h3>
+    Mandatory requirements
+  </h3>
+  <ul>
+    <li>Read hand histories from file</li>
+    <li>Some kind of database</li>
+    <li>An easy-to-use user interface</li>
+    <li>Extract some basic stats for players based on their actions on different streets:
+        <dl> 
+            <dd>- Hands played</dd>
+            <dd>- Money won</dd>
+            <dd>- Voluntarily put money in the pot %</dd>
+            <dd>- Preflop raise %</dd>
+            <dd>- Preflop 3bet %</dd>
+            <dd>- Agression factor (Raise% + Bet%) / Call %</dd>
+            <dd>- Continuation bet flop %</dd>
+            <dd>- Went to showdown %</dd>
+            <dd>- Won at showdown %</dd>
+        </dl>
+    </li>
+    <li>Filtering by date, sessions, private cards, position at the table and money won</li>
+    <li>Reviewing single hands</li>
+    <li>Plot money won over hands played (or save it in some easy-to-plot format)</li>
+  </ul>
+  <h3>
+    Additional requirements
+  </h3>
+  
+  <ul>
+    <li>Graphical user interface</li>
+    <li>Calculate pot odds to improve hand review</li>
+    <li>More stats and features, e.g. tip a dealer, burn cards before draw, etc.</li>
+    <li>Use some real database system</li>
+  </ul>
+  <h2> 
+    Program architecture
+  </h2> 
+<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+ <defs>
+  <marker id="se_marker_end_svg_4" markerUnits="strokeWidth" orient="auto" viewBox="0 0 100 100" markerWidth="5" markerHeight="5" refX="50" refY="50">
+   <path id="svg_11" d="m100,50l-100,40l30,-40l-30,-40l100,40z" fill="#000000" stroke="#000000" stroke-width="10"/>
+  </marker>
+  <marker id="se_marker_end_svg_9" markerUnits="strokeWidth" orient="auto" viewBox="0 0 100 100" markerWidth="5" markerHeight="5" refX="50" refY="50">
+   <path id="svg_12" d="m100,50l-100,40l30,-40l-30,-40l100,40z" fill="#000000" stroke="#000000" stroke-width="10"/>
+  </marker>
+  <marker id="se_marker_end_svg_10" markerUnits="strokeWidth" orient="auto" viewBox="0 0 100 100" markerWidth="5" markerHeight="5" refX="50" refY="50">
+   <path id="svg_13" d="m100,50l-100,40l30,-40l-30,-40l100,40z" fill="#000000" stroke="#000000" stroke-width="10"/>
+  </marker>
+  <marker refY="50" refX="50" markerHeight="5" markerWidth="5" viewBox="0 0 100 100" orient="auto" markerUnits="strokeWidth" id="se_marker_start_svg_15">
+   <path stroke-width="10" stroke="#000000" fill="#000000" d="m0,50l100,40l-30,-40l30,-40l-100,40z"/>
+  </marker>
+  <marker refY="50" refX="50" markerHeight="5" markerWidth="5" viewBox="0 0 100 100" orient="auto" markerUnits="strokeWidth" id="se_marker_end_svg_15">
+   <path stroke-width="10" stroke="#000000" fill="#000000" d="m100,50l-100,40l30,-40l-30,-40l100,40z"/>
+  </marker>
+ </defs>
+ <g>
+  <title>Layer 1</title>
+  <rect id="svg_49" height="120.33333" width="214" y="169" x="220" stroke="#000000" fill="#ffffff"/>
+  <rect id="svg_14" height="73.99999" width="212.00001" y="372.66667" x="222" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_6" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="16" y="398.66667" x="329.83333" stroke-width="0" stroke="#000000" fill="#000000" font-weight="bold">GNUPlot</text>
+  <text id="svg_7" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="13" y="429.33334" x="332" stroke-width="0" stroke="#000000" fill="#000000">Plotting the statistics</text>
+  <rect height="76.49999" width="181.99999" y="294.50001" x="440.5" stroke="#000000" fill="#ffffff" id="svg_25"/>
+  <text fill="#000000" stroke="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" opacity="0.5" x="518" y="297" id="svg_26" font-size="13" font-family="serif" text-anchor="middle" xml:space="preserve"/>
+  <text xml:space="preserve" text-anchor="middle" font-family="serif" font-size="16" y="319.33333" x="532.16666" stroke-width="0" stroke="#000000" fill="#000000" font-weight="bold" id="svg_27">Statistics of Game</text>
+  <text xml:space="preserve" text-anchor="middle" font-family="serif" font-size="13" y="345.66666" x="531.66666" stroke-width="0" stroke="#000000" fill="#000000" id="svg_28">Additional statistics</text>
+  <text xml:space="preserve" text-anchor="middle" font-family="serif" font-size="13" y="360" x="533.33333" stroke-width="0" stroke="#000000" fill="#000000" id="svg_29">Hands played, etc.</text>
+  <rect height="83.66665" width="204" y="22.33334" x="222.66667" stroke="#000000" fill="#ffffff" id="svg_30"/>
+  <text xml:space="preserve" text-anchor="middle" font-family="serif" font-size="16" y="45.66667" x="321" stroke-width="0" stroke="#000000" fill="#000000" font-weight="bold" id="svg_31">File I/O</text>
+  <text xml:space="preserve" text-anchor="middle" font-family="serif" font-size="13" y="90.66667" x="323.83333" stroke-width="0" stroke="#000000" fill="#000000" id="svg_32">Variables initialization</text>
+  <text xml:space="preserve" text-anchor="middle" font-family="serif" font-size="13" y="73.66667" x="324.33333" stroke-width="0" stroke="#000000" fill="#000000" id="svg_33">Reading file history</text>
+  <rect height="77.66666" width="193.66669" y="183.33333" x="9.66664" stroke="#000000" fill="#ffffff" id="svg_34"/>
+  <text xml:space="preserve" text-anchor="middle" font-family="serif" font-size="16" y="205.66666" x="106.66666" stroke-width="0" stroke="#000000" fill="#000000" font-weight="bold" id="svg_35">SQLite</text>
+  <text xml:space="preserve" text-anchor="middle" font-family="serif" font-size="13" y="244.5" x="107.66667" stroke-width="0" stroke="#000000" fill="#000000" id="svg_36">Store history in an efficient manner</text>
+  <text xml:space="preserve" text-anchor="middle" font-family="serif" font-size="13" id="svg_50" y="63.33333" x="350" opacity="0.5" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#000000"/>
+  <text font-weight="bold" font-style="normal" id="svg_51" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="16" y="197" x="327" stroke-width="0" stroke="#000000" fill="#000000">Data Manager</text>
+  <text id="svg_53" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="11" y="273.83333" x="326.33333" stroke-width="0" stroke="#000000" fill="#000000">(e.g. money won, times player folded...)</text>
+  <text font-style="normal" id="svg_69" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="13" y="252.66667" x="325.83333" stroke-width="0" stroke="#000000" fill="#000000">value in class Hand</text>
+  <line fill="none" stroke="#000000" stroke-width="null" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="-245" y1="318" x2="-241" y2="318" id="svg_120"/>
+  <line fill="none" stroke="#000000" stroke-linejoin="null" stroke-linecap="null" x1="315" y1="107" x2="315" y2="165.03332" id="svg_4" marker-end="url(#se_marker_end_svg_4)"/>
+  <text id="svg_52" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="13" y="235.33333" x="327.99999" stroke-width="0" stroke="#000000" fill="#000000">Prepocesses history data and stores</text>
+  <line fill="none" stroke="#000000" stroke-linejoin="null" stroke-linecap="null" x1="320" y1="290" x2="320" y2="368.04999" id="svg_9" marker-end="url(#se_marker_end_svg_9)"/>
+  <line fill="none" stroke="#000000" stroke-linejoin="null" stroke-linecap="null" x1="440" y1="335" x2="323" y2="335" id="svg_10" marker-start="url(#se_marker_start_svg_10)" marker-end="url(#se_marker_end_svg_10)"/>
+  <line marker-end="url(#se_marker_end_svg_15)" marker-start="url(#se_marker_start_svg_15)" id="svg_15" y2="223" x2="218.03567" y1="223" x1="204" stroke-linecap="null" stroke-linejoin="null" stroke="#000000" fill="none"/>
+  <text id="svg_122" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="13" y="218.33333" x="327.99999" stroke-width="0" stroke="#000000" fill="#000000">An interface to external database</text>
+  <rect id="svg_125" height="83.66665" width="195.00002" y="22.33334" x="8.66667" stroke="#000000" fill="#ffffff"/>
+  <text id="svg_126" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="16" y="46.66667" x="103" stroke-width="0" stroke="#000000" fill="#000000" font-weight="bold">Graphical UI design</text>
+ </g>
+</svg>
+  <h2> 
+    Task sharing
+  </h2> 
+  <p><b>Peng Liu:</b> history file analysis and loading, calculating some parts of statistics, GUI.</p>
+  <p><b>Nataliia Trifonova</b>: database design, working with database, extracting info into C++ program, calculating some parts of stats.</p>
+  <p><b>Qiuyang Tang</b>: knowing how to work with GNUplot by extracting values from C++ program or database, calculating some parts of statistics</p>
+  <p> 
+    As for the Data Manager part, this is, basically, our C++ program which incorporates all other parts, so we will design it and its classes altogether.</p>
+  <p>
+    NB: if someone has any problems or unable to realize his or her task, the division can be changed.
+  </p> 
+  <h2> 
+    Testing
+  </h2> 
+  <p> 
+    Each group member is responsible for testing its own code and classes. As tasks are quite diverse and all of them are important in the final program members will write their own "main" program which performs necessary functionality depending on the task he or she has. Each member should know its own part perfectly. After mastering each own part, (this should be done by 23 Nov, 2012) we will try to combine everything together: reading history file into database, then plotting some stats. After we will work together in order to debug everything until we get final version.   
+  </p> 
+  <h2> 
+    Schedule
+  </h2> 
+  <p>
+  <h4>Deadlines:</h4>  
+  <ol>
+    <li><b>23 Nov, 2012</b> - deadline for individual works</li>
+    <li><b>30 Nov, 2012</b> - deadline for combination debugging</li>
+    <li><b>10 Dec, 2012</b> - deadline for total testing and program releasing</li>
+  </ol>
+  <p>  
+  <h4>Meetings:</h4> 
+    <ol>
+        <li><b>6 Nov, 2012</b> - as one of our group members is absent everything should be explaned to her on this meeting</li>
+        <li><b>11 Nov, 2012</b> - "draft" meeting, discussing problems on game understanding, concerns on programming</li>
+        <li>Meetings one day after each deadline</li>
+    </ol> 
+  </p> 
+  <h2> 
+    External libraries
+  </h2> 
+  <p> 
+    <ul>
+        <li>Qt application framework for GUI</li>
+        <li>SQLite as an external database</li>
+    </ul>
+  </p> 
+</body>
+
